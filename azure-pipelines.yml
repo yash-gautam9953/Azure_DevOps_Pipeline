@@ -6,7 +6,7 @@ resources:
 
 variables:
   dockerRegistryServiceConnection: '4039e7ef-f2df-44a5-9864-3364a7ab767d'
-  imageRepository: 'yashgautamcodealphaazurecicd'
+  imageRepository: 'azure-cicd-app'
   containerRegistry: 'codealphacontainer02.azurecr.io'
   dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
   tag: '$(Build.BuildId)'
@@ -20,16 +20,16 @@ pool:
 stages:
 
 - stage: Build
-  displayName: Build and push stage
+  displayName: Build and Push
 
   jobs:
   - job: Build
-    displayName: Build
+    displayName: Build Docker Image
 
     steps:
 
     - task: Docker@2
-      displayName: Build and push an image to container registry
+      displayName: Build and Push Docker Image
       inputs:
         command: buildAndPush
         repository: $(imageRepository)
@@ -47,12 +47,12 @@ stages:
 
   jobs:
   - job: Deploy
-    displayName: Deploy container
+    displayName: Deploy Application
 
     steps:
 
     - task: AzureWebAppContainer@1
-      displayName: Deploy Docker image to Azure App Service
+      displayName: Deploy Docker Container
       inputs:
         azureSubscription: $(azureSubscription)
         appName: $(appName)
