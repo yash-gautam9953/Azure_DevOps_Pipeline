@@ -1,6 +1,6 @@
 const express = require("express");
-const app = express();
 
+const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.get("/", (req, res) => {
@@ -10,9 +10,12 @@ app.get("/", (req, res) => {
       <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>CodeAlpha CI/CD</title>
+        <title>Azure CI/CD Pipeline</title>
+
         <style>
-          * { box-sizing: border-box; }
+          * {
+            box-sizing: border-box;
+          }
 
           body {
             margin: 0;
@@ -84,16 +87,23 @@ app.get("/", (req, res) => {
           }
         </style>
       </head>
+
       <body>
         <main class="card">
           <span class="badge">● Deployment Active</span>
-          <h1>CodeAlpha Azure CI/CD 🚀</h1>
+
+          <h1>Azure CI/CD Pipeline 🚀</h1>
+
           <p>
             Your Express application is running successfully through an
             automated Azure CI/CD pipeline.
           </p>
+
           <a href="/health">Check Service Health</a>
-          <footer>Built with Node.js, Express, Azure & CodeAlpha</footer>
+
+          <footer>
+            Built with Node.js, Express, Docker & Azure
+          </footer>
         </main>
       </body>
     </html>
@@ -103,7 +113,7 @@ app.get("/", (req, res) => {
 app.get("/health", (req, res) => {
   res.status(200).json({
     status: "healthy",
-    service: "CodeAlpha Azure CI/CD",
+    service: "Azure CI/CD Application",
     timestamp: new Date().toISOString(),
     environment: process.env.NODE_ENV || "development",
   });
