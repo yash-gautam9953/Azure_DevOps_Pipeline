@@ -5,17 +5,17 @@ resources:
 - repo: self
 
 variables:
-  dockerRegistryServiceConnection: '4039e7ef-f2df-44a5-9864-3364a7ab767d'
+  dockerRegistryServiceConnection: '<NEW_SERVICE_CONNECTION_ID>'
   imageRepository: 'azure-cicd-app'
-  containerRegistry: 'codealphacontainer02.azurecr.io'
+  containerRegistry: 'azurecicdacr01.azurecr.io'
   dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
   tag: '$(Build.BuildId)'
 
-  azureSubscription: 'CodeAlpha-Azure-Connection'
-  appName: 'codealpha-cicd-app-2026'
+  azureSubscription: 'Azure-DevOps-Connection'
+  appName: 'azure-cicd-app-2026'
 
 pool:
-  name: 'CodeAlpha-SelfHosted'
+  name: 'Azure-SelfHosted'
 
 stages:
 
