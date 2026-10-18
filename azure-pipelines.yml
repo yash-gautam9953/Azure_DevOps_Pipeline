@@ -5,19 +5,54 @@ resources:
 - repo: self
 
 variables:
-  dockerRegistryServiceConnection: '<NEW_SERVICE_CONNECTION_ID>'
+  # ============================================================
+  # Azure Container Registry Configuration
+  # Replace these values with your own Azure ACR details.
+  # ============================================================
+
+  dockerRegistryServiceConnection: '<YOUR_DOCKER_REGISTRY_SERVICE_CONNECTION_ID>'
+
   imageRepository: 'azure-cicd-app'
-  containerRegistry: 'azurecicdacr01.azurecr.io'
+
+  # Example:
+  # myregistry.azurecr.io
+  containerRegistry: '<YOUR_ACR_LOGIN_SERVER>'
+
   dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
+
+  # Automatically uses the Azure DevOps Build ID as image tag.
   tag: '$(Build.BuildId)'
 
-  azureSubscription: 'Azure-DevOps-Connection'
-  appName: 'azure-cicd-app-2026'
+
+  # ============================================================
+  # Azure App Service Configuration
+  # ============================================================
+
+  # Name of the Azure Resource Manager service connection
+  # created in Azure DevOps.
+  azureSubscription: '<YOUR_AZURE_SERVICE_CONNECTION_NAME>'
+
+  # Name of your Azure Linux App Service.
+  appName: '<YOUR_AZURE_APP_SERVICE_NAME>'
+
+
+# ============================================================
+# Azure DevOps Agent Pool
+# ============================================================
 
 pool:
-  name: 'Azure-SelfHosted'
+  name: '<YOUR_AGENT_POOL_NAME>'
+
+
+# ============================================================
+# CI/CD Stages
+# ============================================================
 
 stages:
+
+# ------------------------------------------------------------
+# Build Stage
+# ------------------------------------------------------------
 
 - stage: Build
   displayName: Build and Push
@@ -30,19 +65,29 @@ stages:
 
     - task: Docker@2
       displayName: Build and Push Docker Image
+
       inputs:
         command: buildAndPush
+
         repository: $(imageRepository)
+
         dockerfile: $(dockerfilePath)
+
         containerRegistry: $(dockerRegistryServiceConnection)
+
         tags: |
           $(tag)
 
+
+# ------------------------------------------------------------
+# Deploy Stage
+# ------------------------------------------------------------
 
 - stage: Deploy
   displayName: Deploy to Azure App Service
 
   dependsOn: Build
+
   condition: succeeded()
 
   jobs:
@@ -53,7 +98,10 @@ stages:
 
     - task: AzureWebAppContainer@1
       displayName: Deploy Docker Container
+
       inputs:
         azureSubscription: $(azureSubscription)
+
         appName: $(appName)
+
         containers: $(containerRegistry)/$(imageRepository):$(tag)
