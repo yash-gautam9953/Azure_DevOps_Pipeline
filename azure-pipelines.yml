@@ -5,9 +5,9 @@ resources:
 - repo: self
 
 variables:
-  dockerRegistryServiceConnection: '03b7b0f5-01f4-4849-b4c9-7d7ef9b82650'
+  dockerRegistryServiceConnection: '4039e7ef-f2df-44a5-9864-3364a7ab767d'
   imageRepository: 'yashgautamcodealphaazurecicd'
-  containerRegistry: 'codealphacontainer01.azurecr.io'
+  containerRegistry: 'codealphacontainer02.azurecr.io'
   dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
   tag: '$(Build.BuildId)'
 
